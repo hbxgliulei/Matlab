@@ -1,0 +1,28 @@
+%将数据采集卡采集到的数据每组求平均值并输出到%
+%名为jieguo的Excel文件中%
+%20170327%
+clear;
+clc;
+%设置结果保存Excel文件
+savefile='.\jieguo.xlsx'
+%遍历当前目录下的子目录
+for j=1:10
+%匹配子目录名
+filepath=fullfile('.\',int2str(j),'\')
+%遍历子目录下的文件
+for i=1:12
+    %匹配子目录下的文件名   
+    str=strcat(filepath,'backup_',int2str(i),'.xlsx') ;
+    %将一个xlsx文件中的平均值保存到元胞数组中
+    a{i}=mean(xlsread(str,'sheet1','a2:a101'));
+end
+%将元胞数组变为矩阵
+x11=cell2mat(a);
+%将其变为列向量
+x1=x11';
+x{j}=x1;
+end
+%将元胞数组变为矩阵
+xx=cell2mat(x);
+%保存到Excel
+xlswrite(savefile,xx);
